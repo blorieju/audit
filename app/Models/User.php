@@ -28,4 +28,14 @@ class User extends Authenticatable
     {
         return 'http://www.gravatar.com/avatar/' . md5($this->email) . '?s=35&d=mm';
     }
+
+    public function profile()
+    {
+        return $this->hasOne('App\Profile');
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role','role_user');
+    }
 }
