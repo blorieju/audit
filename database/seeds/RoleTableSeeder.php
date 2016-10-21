@@ -1,7 +1,7 @@
 <?php
 
-use App\Role;
-use App\User;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -18,19 +18,13 @@ class RoleTableSeeder extends Seeder
 
         $roles = [
             [
-                'name' => 'admin',
-                'created_at' => new DateTime(),
-                'updated_at' => new DateTime()
+                'name' => 'admin'
             ],
             [
-                'name' => 'clerk',
-                'created_at' => new DateTime(),
-                'updated_at' => new DateTime()
+                'name' => 'clerk'
             ],
             [
-                'name' => 'customer',
-                'created_at' => new DateTime(),
-                'updated_at' => new DateTime()
+                'name' => 'customer'
             ]
         ];
 

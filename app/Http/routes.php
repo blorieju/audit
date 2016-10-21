@@ -1,5 +1,9 @@
 <?php
 
+// Route::controllers([
+//    'password' => 'Auth\PasswordController',
+// ]);
+
 Route::group(['middleware' => ['api']],function(){
 	Route::post('/auth/signup', [
 		'uses' => 'AuthController@signup',

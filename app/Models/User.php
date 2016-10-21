@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Role;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -31,11 +33,11 @@ class User extends Authenticatable
 
     public function profile()
     {
-        return $this->hasOne('App\Profile');
+        return $this->hasOne('App\Models\Profile');
     }
 
     public function roles()
     {
-        return $this->belongsToMany('App\Role','role_user');
+        return $this->belongsToMany('App\Models\Role','role_user');
     }
 }
