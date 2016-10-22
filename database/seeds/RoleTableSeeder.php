@@ -18,13 +18,16 @@ class RoleTableSeeder extends Seeder
 
         $roles = [
             [
-                'name' => 'admin'
+                'name' => 'admin',
+                'description' => 'Owner of Audit System from United Kingdom'
             ],
             [
-                'name' => 'clerk'
+                'name' => 'clerk',
+                'description' => 'Clerk registered to update and create events'
             ],
             [
-                'name' => 'customer'
+                'name' => 'customer',
+                'descriptio' => 'User of services offered by Audit System'
             ]
         ];
 

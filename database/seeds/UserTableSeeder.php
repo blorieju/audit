@@ -17,18 +17,24 @@ class UserTableSeeder extends Seeder
             [
                 'email'     => 'admin@gmail.com',
                 'password'  => bcrypt('password'),
+                'activation_token' => NULL,
+                'active' => 1,
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime()
             ],
             [
                 'email'     => 'clerk@gmail.com',
                 'password'  => bcrypt('password'),
+                'activation_token' => NULL,
+                'active' => 1,
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime()
             ],
             [
                 'email'     => 'customer@gmail.com',
                 'password'  => bcrypt('password'),
+                'activation_token' => NULL,
+                'active' => 1,
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime()
             ]

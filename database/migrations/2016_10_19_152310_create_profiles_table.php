@@ -22,8 +22,9 @@ class CreateProfilesTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('mobile');
-            $table->integer('gravatar')->default(1);
-            $table->string('image')->nullable();
+            $table->string('address');
+            $table->boolean('gravatar')->default(1);
+            $table->string('profile_image_path')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

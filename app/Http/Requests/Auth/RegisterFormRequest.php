@@ -23,10 +23,18 @@ class RegisterFormRequest extends Request
      */
     public function rules()
     {
+        // return [
+        //     'email' => 'required|email|unique:users',
+        //     'password' => 'required',
+        // ];
+
         return [
-            'username' => 'required|unique:users|max:255',
             'email' => 'required|email|unique:users',
-            'password' => 'required',
+            'password' => 'required|max:60',
+            'first_name' => 'required|max:60',
+            'last_name' => 'required|max:60',
+            'mobile' => 'required|numeric',
+            'address' => 'required|max:255',
         ];
     }
 }

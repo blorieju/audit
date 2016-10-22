@@ -1,10 +1,8 @@
 <?php
 
-// Route::controllers([
-//    'password' => 'Auth\PasswordController',
-// ]);
-
 Route::group(['middleware' => ['api']],function(){
+
+	//===== User Authentication
 	Route::post('/auth/signup', [
 		'uses' => 'AuthController@signup',
 	]);
@@ -13,6 +11,10 @@ Route::group(['middleware' => ['api']],function(){
 		'uses' => 'AuthController@signin',
 	]);
 
+	Route::get('/user/activate',[
+		'uses' => 'UserController@accountActivation',
+	]);
+	//====== Authenticated User
 	Route::group(['middleware' => 'jwt.auth'], function(){
 		Route::get('/user', [
 			'uses' => 'UserController@index',
@@ -20,3 +22,7 @@ Route::group(['middleware' => ['api']],function(){
 	});
 
 });
+
+// Route::auth();
+
+Route::get('/home', 'HomeController@index');

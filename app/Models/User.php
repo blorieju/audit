@@ -3,18 +3,30 @@
 namespace App\Models;
 
 use App\Models\Role;
+use App\Models\Profile;
+use App\Events\UserHasRegistered;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Auth\Authenticatable;
+use App\Transformers\UserTransformer;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
-class User extends Authenticatable
+class User extends Model implements AuthenticatableContract,
+                                    CanResetPasswordContract
 {
+
+    use Authenticatable,
+        CanResetPassword;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password',
+        'email', 'password','activation_token', 'active'
     ];
 
     /**
@@ -25,6 +37,57 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public static function storeOrUpdate($request, $args = [])
+    {
+        //Sign Up User
+        if(array_key_exists('sign_up', $args) && $args['sign_up']){
+            $user = new User([
+                'email' => $request->json('email'),
+                'password' => bcrypt($request->json('password')),
+            ]);
+            $user->save();
+
+            $profile = new Profile();
+            $profile->first_name = $request->json('first_name');
+            $profile->last_name = $request->json('last_name');
+            $profile->mobile = $request->json('mobile');
+            $profile->address = $request->json('address');
+            $user->profile()->save($profile);
+
+            //User Account Type
+            $user->roles()->attach(3);
+            //Fire an event to user
+            $args = [
+                'email_activation' => true
+            ];
+            Self::sendEmailToUserByRequest($user, $args);
+        }
+
+        return fractal()
+            ->item($user)
+            ->transformWith(new UserTransformer)
+            ->toArray();
+    }
+
+    public function findUserbyEmail($request)
+    {
+        try{
+            $user = Self::where('email',$request)->first();
+        }catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        return $user;
+    }
+
+    public static function sendEmailToUserByRequest($request, $args = [])
+    {
+        if(array_key_exists('email_activation', $args) && $args['email_activation'])
+        {
+            event(new UserHasRegistered($request));
+        }
+    }
 
     public function avatar()
     {
