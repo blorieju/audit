@@ -61,7 +61,16 @@ class User extends Model implements AuthenticatableContract,
             $args = [
                 'email_activation' => true
             ];
-            Self::sendEmailToUserByRequest($user, $args);
+
+            try{
+                Self::sendEmailToUserByRequest($user, $args);
+            }catch (\Exception $e) {
+                return response()->json([
+                    'confirmation_type' => 'error',
+                    'message' => 'Something problem in our Mail server'
+                ],500);
+            }
+
         }
 
         return fractal()

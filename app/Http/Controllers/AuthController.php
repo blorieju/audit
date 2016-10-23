@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Transformers\UserTransformer;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Requests\Auth\RegisterFormRequest;
+use App\Http\Requests\Auth\SigninFormRequest;
 
 class AuthController extends Controller
 {
@@ -22,7 +23,7 @@ class AuthController extends Controller
         return User::storeOrUpdate($request, $args);
     }
 
-    public function signin(Request $request)
+    public function signin(SigninFormRequest $request)
     {
         $credentials = $request->only('email','password');
 
@@ -30,7 +31,6 @@ class AuthController extends Controller
         $user = User::where('email',$email)->first();
 
         try{
-
             //check if user is active
             if($user && $user->active == 0)
             {
@@ -48,7 +48,7 @@ class AuthController extends Controller
                 'error' => 'Could not authenticate',
             ], 500);
         }
-        if( !$token){
+        if(!$token){
             return response()->json([
                 'error' => 'Could not authenticate',
             ], 401);
