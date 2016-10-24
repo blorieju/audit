@@ -30,7 +30,10 @@ Route::group(['middleware' => ['api']],function(){
 	});
 
 });
-
+// Route::get('/wew', function(){
+// 	$env = env('STRIPE_SECRET');
+// 	dd($env);
+// });
 // Route::auth();
 
 Route::get('/home', 'HomeController@index');

@@ -12,13 +12,15 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Auth\Authenticatable;
 use App\Transformers\UserTransformer;
+use Laravel\Cashier\Billable;
 
 class User extends Model implements AuthenticatableContract,
                                     CanResetPasswordContract
 {
 
     use Authenticatable,
-        CanResetPassword;
+        CanResetPassword,
+        Billable;
 
     /**
      * The attributes that are mass assignable.
