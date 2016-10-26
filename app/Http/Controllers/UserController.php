@@ -27,20 +27,20 @@ class UserController extends Controller
                 return response()->json([
                     'confirmation_type' => 'error',
                     'message' => 'Your account is already activated. Try to login now.'
-                ]);
+                ],401);
             }
             $user->update(['active' => 1]);
         }catch(\Exception $e){
             return response()->json([
                 'confirmation_type' => 'error',
                 'message' => 'Something wrong in our system, please try again.'
-            ]);
+            ],500);
         }
 
         //Redirect user to login and success message
         return response()->json([
             'confirmation_type' => 'success',
             'message' => 'Account Successfully activated, please login.'
-        ]);
+        ],200);
     }
 }

@@ -7,9 +7,11 @@ Route::group(['middleware' => ['api']],function(){
 		'uses' => 'AuthController@signup',
 	]);
 
-	Route::post('/auth/signin', [
-		'uses' => 'AuthController@signin',
-	]);
+	Route::group(['middleware' => 'throttle:8'], function(){
+		Route::post('/auth/signin', [
+			'uses' => 'AuthController@signin',
+		]);
+	});
 
 	Route::get('/auth/signout', [
 		'uses' => 'AuthController@signout',
@@ -19,9 +21,6 @@ Route::group(['middleware' => ['api']],function(){
 		'uses' => 'UserController@accountActivation',
 	]);
 
-	Route::get('/services', function(){
-		dd('data here');
-	});
 	//====== Authenticated User
 	Route::group(['middleware' => 'jwt.auth'], function(){
 		Route::get('/user', [
@@ -32,6 +31,22 @@ Route::group(['middleware' => ['api']],function(){
 		Route::get('/plans',[
 			'uses' => 'PlanController@index'
 		]);
+
+		Route::post('/subscription', [
+			'uses' => 'SubscriptionController@create'
+		]);
+
+	    Route::group(['middleware' => 'subscribed'], function () {
+	        Route::get('/subscription', [
+	        	'uses' => 'SubscriptionController@index'
+	    	]);
+	        Route::post('/subscription/cancel', [
+	        	'uses' => 'SubscriptionController@cancel'
+	    	]);
+	        Route::post('/subscription/resume', [
+	        	'uses' => 'SubscriptionController@resume'
+	    	]);
+	    });
 	});
 
 });
