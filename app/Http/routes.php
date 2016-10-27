@@ -7,7 +7,7 @@ Route::group(['middleware' => ['api']],function(){
 		'uses' => 'AuthController@signup',
 	]);
 
-	Route::group(['middleware' => 'throttle:8'], function(){
+	Route::group(['middleware' => 'throttle:6'], function(){
 		Route::post('/auth/signin', [
 			'uses' => 'AuthController@signin',
 		]);
