@@ -15,7 +15,16 @@ class SubscriptionController extends Controller
 
     public function create(Request $request)
     {
-        $plan = Plan::findOrFail($request->plan);
+        try{
+            $plan = Plan::where('name',$request->get('plan'))->firstOrfail();
+        }catch(\Exception $e){
+            return response()->json([
+                'confirmation_type' => 'error',
+                'message' => 'Plan doesnt exist'
+            ], 401);
+        }
+        
+        
 
         if ($request->user()->subscribedToPlan($plan->stripe_plan, 'main')) {
             return response()->json([
